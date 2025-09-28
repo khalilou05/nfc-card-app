@@ -23,12 +23,12 @@ export default function Page() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
-  const handleSubmit = async () => {
-    const resp = await fetch("", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-  };
+  // const handleSubmit = async () => {
+  //   const resp = await fetch("", {
+  //     method: "POST",
+  //     body: JSON.stringify(data),
+  //   });
+  // };
 
   const items = [
     {
