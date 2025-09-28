@@ -21,16 +21,16 @@ export function LoginForm({
     >
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>تسجيل الدخول إلى حسابك</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            أدخل بريدك الإلكتروني أدناه لتسجيل الدخول إلى حسابك
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={(e) => e.preventDefault()}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">البريد الإلكتروني</Label>
                 <Input
                   id="email"
                   type="email"
@@ -40,7 +40,7 @@ export function LoginForm({
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">كلمة المرور</Label>
                 </div>
                 <Input
                   id="password"
@@ -54,7 +54,7 @@ export function LoginForm({
                   type="submit"
                   className="w-full"
                 >
-                  Login
+                  الدخول
                 </Button>
               </div>
             </div>
