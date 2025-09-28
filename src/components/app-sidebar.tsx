@@ -1,3 +1,4 @@
+"use client";
 import {
   Home,
   LogOutIcon,
@@ -16,6 +17,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 
@@ -28,12 +30,12 @@ const items = [
   },
   {
     title: "إضافة زبون",
-    url: "dashboard/add",
+    url: "/dashboard/add",
     icon: PlusCircle,
   },
   {
     title: "الزبائن",
-    url: "dashboard/customers",
+    url: "/dashboard/customers",
     icon: User,
   },
   {
@@ -57,6 +59,8 @@ const bottomItems = [
 ];
 
 export function AppSidebar() {
+  const { setOpen } = useSidebar();
+
   return (
     <Sidebar
       side="right"
@@ -73,8 +77,14 @@ export function AppSidebar() {
               <div>
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.url}>
+                    <SidebarMenuButton
+                      onClick={() => setOpen(false)}
+                      asChild
+                    >
+                      <Link
+                        href={item.url}
+                        replace
+                      >
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
