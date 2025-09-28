@@ -1,4 +1,11 @@
-import { Home, PlusCircle, Search, Settings, User } from "lucide-react";
+import {
+  Home,
+  LogOutIcon,
+  PlusCircle,
+  Search,
+  Settings,
+  User,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -10,57 +17,85 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 // Menu items.
 const items = [
   {
     title: "الرئيسية",
-    url: "#",
+    url: "/dashboard",
     icon: Home,
   },
   {
     title: "إضافة زبون",
-    url: "#",
+    url: "dashboard/add",
     icon: PlusCircle,
   },
   {
     title: "الزبائن",
-    url: "#",
+    url: "dashboard/customers",
     icon: User,
   },
   {
     title: "بحث",
-    url: "#",
+    url: "search",
     icon: Search,
   },
+];
+
+const bottomItems = [
   {
     title: "الإعدادات",
     url: "#",
     icon: Settings,
   },
+  {
+    title: "خروج",
+    url: "#",
+    icon: LogOutIcon,
+  },
 ];
 
 export function AppSidebar() {
   return (
-    <Sidebar side="right">
-      <SidebarContent>
-        <SidebarGroup>
+    <Sidebar
+      side="right"
+      className="h-screen"
+    >
+      <SidebarContent className="h-full">
+        <SidebarGroup className="h-full flex flex-col">
           <SidebarGroupLabel>NFC CARD APP</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item, i) => (
-                <SidebarMenuItem
-                  key={item.title}
-                  style={{ marginTop: i + 1 === items.length ? "auto" : "" }}
-                >
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+
+          {/* This must also stretch */}
+          <SidebarGroupContent className="flex-1">
+            <SidebarMenu className="flex h-full flex-col justify-between">
+              {/* Top items */}
+              <div>
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </div>
+
+              {/* Bottom items */}
+              <div>
+                {bottomItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </div>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
