@@ -23,12 +23,13 @@ export default function Page() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
-  // const handleSubmit = async () => {
-  //   const resp = await fetch("", {
-  //     method: "POST",
-  //     body: JSON.stringify(data),
-  //   });
-  // };
+  const handleSubmit = async () => {
+    const resp = await fetch("", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    console.log(resp);
+  };
 
   const items = [
     {
@@ -68,7 +69,10 @@ export default function Page() {
           </CardHeader>
           <CardContent>
             <form
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
               className="flex flex-col gap-3"
             >
               {items.map((item) => (
