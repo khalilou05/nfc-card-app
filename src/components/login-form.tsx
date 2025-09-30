@@ -9,11 +9,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
   return (
     <div
       className={cn("flex flex-col gap-6", className)}
@@ -50,6 +52,7 @@ export function LoginForm({
               </div>
               <div className="flex flex-col gap-3">
                 <Button
+                  onClick={() => router.push("/dashboard/add")}
                   style={{ cursor: "pointer" }}
                   type="submit"
                   className="w-full"

@@ -20,7 +20,8 @@ import type { UserData } from "../../../../../types";
 
 export default function Page({ params }: { params: Promise<{ id: number }> }) {
   const [userData, setUserData] = useState<UserData>();
-  // const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const { id } = use(params);
   const qrRef = useRef<SVGSVGElement>(null);
 
@@ -36,17 +37,31 @@ export default function Page({ params }: { params: Promise<{ id: number }> }) {
     URL.revokeObjectURL(url);
   };
 
-  const writeNFC = () => {
-    // @ts-expect-error qsdqsd
-    const nfc = new NDEFReader();
-    nfc.scan();
-    // await nfc.write([{ data: "https://google.com", recordType: "URL" }]);
+  const writeNFC = async () => {
+    try {
+      // @ts-expect-error qsdqsd
+      const nfc = new NDEFReader();
+      nfc.scan();
+      await nfc.write({
+        records: [
+          {
+            recordType: "url",
+            data: `https://nfc-card-app.khalilbenmeziane.workers.dev/${id}`,
+          },
+        ],
+      });
+      setModalOpen(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const resp = await fetch(`http://localhost:8787/api/customers/${id}`);
+        const resp = await fetch(
+          `https://nfc-card-backend.khalilbenmeziane.workers.dev/api/customers/${id}`
+        );
         const data = await resp.json<UserData>();
         setUserData(data);
       } catch (e) {
@@ -85,7 +100,7 @@ export default function Page({ params }: { params: Promise<{ id: number }> }) {
   ];
 
   return (
-    <div className="grid grid-cols-6 grid-rows-4 gap-2 px-4">
+    <div className="grid lg:grid-cols-6 grid-rows-4 gap-2 px-4 sm:grid-cols-1">
       <Card className="col-span-4 row-span-3">
         <CardHeader>
           <CardTitle>معلومات الزبون</CardTitle>
@@ -110,20 +125,32 @@ export default function Page({ params }: { params: Promise<{ id: number }> }) {
             <div className="flex flex-col gap-3">
               <div></div>
 
-              <AlertDialog>
+              <AlertDialog open={isModalOpen}>
                 <AlertDialogTrigger asChild>
-                  <Button style={{ cursor: "pointer" }}>add</Button>
+                  <Button
+                    onClick={() => {
+                      setModalOpen(true);
+                      writeNFC();
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    إدخال المعلومات إلي بطاقة NFC
+                  </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>سيبسيب</AlertDialogTitle>
+                    <AlertDialogTitle>
+                      إدخال المعلومات إلي بطاقة NFC
+                    </AlertDialogTitle>
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
+                      يرجي تقريب بطاقة NFC من الهاتف
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel style={{ cursor: "pointer" }}>
+                    <AlertDialogCancel
+                      onClick={() => setModalOpen(false)}
+                      style={{ cursor: "pointer" }}
+                    >
                       إلغاء
                     </AlertDialogCancel>
                   </AlertDialogFooter>
@@ -136,7 +163,7 @@ export default function Page({ params }: { params: Promise<{ id: number }> }) {
       <Card className="w-fit p-3 row-span-1 col-span-2">
         <QRCodeSVG
           ref={qrRef}
-          value={`https://nfc-card-backend.khalilbenmeziane.workers.dev/customers/${id}`}
+          value={`https://nfc-card-app.khalilbenmeziane.workers.dev/${id}`}
         />
         <Button
           onClick={downloadQRCode}
@@ -145,7 +172,6 @@ export default function Page({ params }: { params: Promise<{ id: number }> }) {
           تحميل
         </Button>
       </Card>
-      <Button onClick={writeNFC}></Button>
     </div>
   );
 }

@@ -1,4 +1,11 @@
 "use client";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,18 +28,28 @@ export default function Page() {
     igPage: "",
     tiktok: "",
   });
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const router = useRouter();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
   const handleSubmit = async () => {
-    const resp = await fetch("http://localhost:8787/api/add", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    const userId = await resp.json<number>();
+    const resp = await fetch(
+      "https://nfc-card-backend.khalilbenmeziane.workers.dev/api/add",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
+    const { userId } = await resp.json<{ userId: number }>();
 
-    if (resp.status === 201) router.push(`/${userId}`);
+    if (resp.status === 201) {
+      setModalOpen(true);
+      setTimeout(() => {
+        router.push(`/dashboard/customers/${userId}`);
+      }, 1000);
+    }
   };
 
   const items = [
@@ -104,6 +121,16 @@ export default function Page() {
             </form>
           </CardContent>
         </Card>
+        <AlertDialog open={isModalOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>تم إضافة الزبون</AlertDialogTitle>
+              <AlertDialogDescription>
+                سيتم تحويلك لصفحة الزبون
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
