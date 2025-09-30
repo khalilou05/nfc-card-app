@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function Page() {
@@ -20,15 +21,18 @@ export default function Page() {
     igPage: "",
     tiktok: "",
   });
+  const router = useRouter();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
   const handleSubmit = async () => {
-    const resp = await fetch("", {
+    const resp = await fetch("http://localhost:8787/api/add", {
       method: "POST",
       body: JSON.stringify(data),
     });
-    console.log(resp);
+    const userId = await resp.json<number>();
+
+    if (resp.status === 201) router.push(`/${userId}`);
   };
 
   const items = [
@@ -61,7 +65,7 @@ export default function Page() {
   ];
   return (
     <div className="h-full w-full flex justify-center">
-      <div className="h-4/12 w-4/12">
+      <div className="w-4/5">
         <Card>
           <CardHeader>
             <CardTitle>إضافة زبون</CardTitle>
@@ -71,7 +75,6 @@ export default function Page() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                handleSubmit();
               }}
               className="flex flex-col gap-3"
             >
@@ -82,6 +85,7 @@ export default function Page() {
                 >
                   <Label htmlFor={item.id}>{item.name}</Label>
                   <Input
+                    name={item.id}
                     required={item.required ? true : false}
                     onChange={handleChange}
                     id={item.id}
@@ -90,7 +94,12 @@ export default function Page() {
               ))}
               <div className="flex flex-col gap-3">
                 <div></div>
-                <Button style={{ cursor: "pointer" }}>إضافة</Button>
+                <Button
+                  onClick={handleSubmit}
+                  style={{ cursor: "pointer" }}
+                >
+                  إضافة
+                </Button>
               </div>
             </form>
           </CardContent>
