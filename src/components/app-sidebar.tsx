@@ -78,7 +78,7 @@ export function AppSidebar() {
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
-                      onClick={() => setOpen(false)}
+                      onPointerDown={() => setOpen(false)}
                       asChild
                     >
                       <Link
