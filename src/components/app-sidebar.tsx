@@ -1,12 +1,5 @@
 "use client";
-import {
-  Home,
-  LogOutIcon,
-  PlusCircle,
-  Search,
-  Settings,
-  User,
-} from "lucide-react";
+import { LogOutIcon, PlusCircle, Settings, User } from "lucide-react";
 
 import {
   Sidebar,
@@ -20,17 +13,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 // Menu items.
 const items = [
   {
-    title: "الرئيسية",
-    url: "/dashboard",
-    icon: Home,
-  },
-  {
     title: "إضافة زبون",
-    url: "/dashboard/add",
+    url: "/dashboard",
     icon: PlusCircle,
   },
   {
@@ -38,29 +27,18 @@ const items = [
     url: "/dashboard/customers",
     icon: User,
   },
-  {
-    title: "بحث",
-    url: "search",
-    icon: Search,
-  },
-];
-
-const bottomItems = [
-  {
-    title: "الإعدادات",
-    url: "#",
-    icon: Settings,
-  },
-  {
-    title: "خروج",
-    url: "#",
-    icon: LogOutIcon,
-  },
 ];
 
 export function AppSidebar() {
-  const { setOpen } = useSidebar();
-
+  const { isMobile, toggleSidebar } = useSidebar();
+  const path = usePathname();
+  const router = useRouter();
+  const logOut = async () => {
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/logout`, {
+      credentials: "include",
+    });
+    router.push("/login");
+  };
   return (
     <Sidebar
       side="right"
@@ -73,15 +51,21 @@ export function AppSidebar() {
           {/* This must also stretch */}
           <SidebarGroupContent className="flex-1">
             <SidebarMenu className="flex h-full flex-col justify-between">
-              {/* Top items */}
               <div>
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
-                      onPointerDown={() => setOpen(false)}
+                      className={
+                        item.url === path
+                          ? "bg-stone-200 hover:bg-stone-200"
+                          : ""
+                      }
                       asChild
                     >
                       <Link
+                        onClick={() => {
+                          if (isMobile) toggleSidebar();
+                        }}
                         href={item.url}
                         replace
                       >
@@ -92,19 +76,34 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 ))}
               </div>
-
-              {/* Bottom items */}
-              <div>
-                {bottomItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+              <div className="mt-auto">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className={
+                      path === "/dashboard/settings"
+                        ? "bg-stone-200 hover:bg-stone-200"
+                        : ""
+                    }
+                    asChild
+                  >
+                    <Link href={"/dashboard/settings"}>
+                      <Settings />
+                      <span>الإعدادات</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="cursor-pointer"
+                    onClick={logOut}
+                    asChild
+                  >
+                    <div>
+                      <LogOutIcon />
+                      <span>خروج</span>
+                    </div>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </div>
             </SidebarMenu>
           </SidebarGroupContent>

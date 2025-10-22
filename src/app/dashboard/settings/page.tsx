@@ -1,10 +1,10 @@
-import { LoginForm } from "@/components/login-form";
+import { PasswordChangeForm } from "@/components/password-change-form";
 
 export default function Page() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
-        <LoginForm />
+        <PasswordChangeForm />
       </div>
     </div>
   );

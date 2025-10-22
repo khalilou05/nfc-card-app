@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 343.71 122.63">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: Closer-LightItalic, Closer;
+        font-size: 26.75px;
+        font-style: italic;
+        font-weight: 300;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #004f9f;
+      }
+
+      .cls-3 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-4 {
+        fill: #1d1d1b;
+      }
+
+      .cls-5 {
+        fill: url(#linear-gradient-3);
+      }
+
+      .cls-6 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="-3436.01" y1="105.34" x2="-3449.1" y2="73.47" gradientTransform="translate(-3282.76) rotate(-180) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00a5dc"/>
+      <stop offset="1" stop-color="#425ea8"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-3425.16" y1="102.16" x2="-3435.42" y2="77.28" gradientTransform="translate(-3282.76) rotate(-180) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e83471"/>
+      <stop offset="1" stop-color="#e61a63"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="-3404.79" y1="107.43" x2="-3432.06" y2="71.7" gradientTransform="translate(-3282.76) rotate(-180) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5e727"/>
+      <stop offset="1" stop-color="#ed6c3f"/>
+    </linearGradient>
+  </defs>
+  <text class="cls-1" transform="translate(173.28 99.59)"><tspan x="0" y="0">Print</tspan></text>
+  <path class="cls-2" d="M92.8,24.97v48.59h-4.99V24.97h-21.57v-4.39h48.06v4.39h-21.49Z"/>
+  <path class="cls-2" d="M95.16,36.25h5.3l10.9,30.88,11.05-30.88h4.16l11.13,30.88,10.9-30.88h5.3l-14,37.31h-4.39l-10.97-30.35-10.97,30.35h-4.39l-14-37.31Z"/>
+  <path class="cls-2" d="M170.15,35.72c9.92,0,16.88,6.05,16.88,14.61,0,1.89-.3,3.78-1.06,5.9h-30.35c.53,7.95,6.13,13.62,14.91,13.62,6.96,0,12.03-3.56,12.49-8.4h4.31c-.68,7.34-7.72,12.64-17.18,12.64-11.58,0-19.3-8.02-19.3-19.15s7.79-19.22,19.3-19.22ZM182.48,52.37c.08-.68.15-1.29.15-1.82,0-6.21-5.07-10.67-12.49-10.67-7.95,0-13.4,5.15-14.46,12.49h26.79Z"/>
+  <path class="cls-2" d="M188.43,36.51h4.77v7.34c3.03-4.84,8.4-7.87,14.99-7.87,8.85,0,14.38,5.37,14.38,14.08v23.76h-4.77v-22.93c0-6.51-4.16-10.6-10.9-10.6-8.1,0-13.7,5.75-13.7,13.77v19.75h-4.77v-37.31Z"/>
+  <path class="cls-2" d="M232.79,40.26v22.93c0,4.16,2.42,6.74,6.51,6.74,1.82,0,3.71-.53,4.47-1.21v3.78c-1.14.83-3.33,1.51-5.98,1.51-6.05,0-9.76-3.94-9.76-10.14v-23.61h-6.81v-4.01h6.81v-9.16l4.77-1.89v11.05h10.97v4.01h-10.97Z"/>
+  <path class="cls-2" d="M242.89,43.66l14.61,31.71,14.68-31.71h5.3l-22.71,47.91c-2.35,5-6.13,8.02-10.37,8.02-1.66,0-3.48-.45-4.69-1.29v-4.01c1.36.68,2.95,1.06,4.09,1.06,2.72,0,5.22-2.12,6.96-5.6l4.39-9.01-17.56-37.08h5.3Z"/>
+  <g>
+    <polygon class="cls-6" points="148.8 99.59 160.94 99.59 170.16 80.73 158.02 80.73 148.8 99.59"/>
+    <polygon class="cls-3" points="136.66 99.59 148.8 99.59 158.02 80.73 145.88 80.73 136.66 99.59"/>
+    <polygon class="cls-5" points="124.53 99.59 136.66 99.59 145.88 80.73 133.75 80.73 124.53 99.59"/>
+    <polygon class="cls-4" points="112.31 99.59 124.44 99.59 133.66 80.73 121.52 80.73 112.31 99.59"/>
+  </g>
+</svg>
