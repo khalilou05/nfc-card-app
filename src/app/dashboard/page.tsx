@@ -25,7 +25,7 @@ import clsx from "clsx";
 import { socialMedia } from "../../socialMedia";
 
 import IMG from "@/icons/IMG";
-import Image from "next/Image";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { Fragment, useEffect, useState } from "react";
 export default function Page() {

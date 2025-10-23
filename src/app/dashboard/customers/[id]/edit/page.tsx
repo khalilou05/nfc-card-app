@@ -19,7 +19,7 @@ import clsx from "clsx";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { Customer } from "@/types/types";
-import Image from "next/Image";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import router from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
