@@ -68,7 +68,7 @@ export default function Page() {
       }
 
       const resp = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/customers`,
+        `https://nfc-card-backend.khalilbenmeziane.workers.dev/api/customers`,
         {
           method: "POST",
           body: formdata,

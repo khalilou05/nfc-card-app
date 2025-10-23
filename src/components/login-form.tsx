@@ -36,11 +36,14 @@ export function LoginForm({
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const resp = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
-        method: "POST",
-        body: JSON.stringify(userData),
-        credentials: "include",
-      });
+      const resp = await fetch(
+        `https://nfc-card-backend.khalilbenmeziane.workers.dev/login`,
+        {
+          method: "POST",
+          body: JSON.stringify(userData),
+          credentials: "include",
+        }
+      );
       if (resp.status === 200) {
         router.push("/dashboard");
       }
