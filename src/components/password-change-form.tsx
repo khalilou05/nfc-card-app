@@ -24,6 +24,7 @@ export function PasswordChangeForm({
   ...props
 }: Prop) {
   const [userData, setUserData] = useState({
+    email: "",
     newpassword: "",
     confirmpassword: "",
   });
@@ -42,7 +43,10 @@ export function PasswordChangeForm({
     }
     try {
       setLoading(true);
-      const resp = await fetch("", { method: "POST" });
+      const resp = await fetch(
+        "https://nfc-card-backend.khalilbenmeziane.workers.dev/resetpassword",
+        { method: "POST", credentials: "include" }
+      );
       if (resp.status === 200) {
         setSuccess("تم تغير كلمة المرور بنجاح");
         return;
@@ -65,8 +69,8 @@ export function PasswordChangeForm({
     >
       <Card>
         <CardHeader>
-          <CardTitle>تغيير كلمة المرور</CardTitle>
-          <CardDescription>أدخل كلمة المرور الجديدة</CardDescription>
+          <CardTitle>تغيير البريد أو كلمة المرور</CardTitle>
+          <CardDescription>أدخل المعلومات الجديدة</CardDescription>
         </CardHeader>
         <CardContent>
           <form
@@ -76,6 +80,16 @@ export function PasswordChangeForm({
             }}
           >
             <div className="flex flex-col gap-6">
+              <div className="grid gap-3">
+                <Label htmlFor="email">البريد الإلكتروني</Label>
+                <Input
+                  onChange={handleChange}
+                  value={userData.newpassword}
+                  id="email"
+                  name="email"
+                  required
+                />
+              </div>
               <div className="grid gap-3">
                 <Label htmlFor="newpassword">كلمة المرور</Label>
                 <Input
