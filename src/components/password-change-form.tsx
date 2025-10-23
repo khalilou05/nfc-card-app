@@ -43,7 +43,10 @@ export function PasswordChangeForm({
     }
     try {
       setLoading(true);
-      const resp = await fetch("", { method: "POST" });
+      const resp = await fetch(
+        "https://nfc-card-backend.khalilbenmeziane.workers.dev/resetpassword",
+        { method: "POST" }
+      );
       if (resp.status === 200) {
         setSuccess("تم تغير كلمة المرور بنجاح");
         return;
