@@ -1,6 +1,6 @@
 import type React from "react";
 
-interface Prop extends React.ComponentProps<"svg"> {}
+type Prop = {} & React.ComponentProps<"svg">;
 
 export default function IMG({ ...rest }: Prop) {
   return (
