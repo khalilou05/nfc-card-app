@@ -137,9 +137,7 @@ export function DataTableDemo() {
         urlSearchParams.append("page", currentPage.toString());
 
         const resp = await fetch(
-          `${
-            process.env.NEXT_PUBLIC_BASE_URL
-          }/api/customers?${urlSearchParams.toString()}`,
+          `https://nfc-card-backend.khalilbenmeziane.workers.dev/api/customers?${urlSearchParams.toString()}`,
           { credentials: "include" }
         );
         if (resp.ok) {
