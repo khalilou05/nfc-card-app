@@ -7,6 +7,7 @@ export default function TikTok() {
       height="50px"
       fillRule="evenodd"
       clipRule="evenodd"
+      style={{ scale: 1.2 }}
     >
       <path
         fill="#212121"

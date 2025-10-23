@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
 
@@ -18,15 +18,17 @@ interface Prop extends React.ComponentProps<"div"> {
   className?: string;
 }
 
-export function LoginForm({
+export function PasswordChangeForm({
   className,
 
   ...props
 }: Prop) {
   const [userData, setUserData] = useState({
-    email: "",
-    password: "",
+    newpassword: "",
+    confirmpassword: "",
   });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,25 +36,28 @@ export function LoginForm({
   };
 
   const handleSubmit = async () => {
+    if (userData.newpassword !== userData.confirmpassword) {
+      setError("كلمة المرور غير متطابقة");
+      return;
+    }
     try {
       setLoading(true);
-      const resp = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
-        method: "POST",
-        body: JSON.stringify(userData),
-        credentials: "include",
-      });
+      const resp = await fetch("", { method: "POST" });
       if (resp.status === 200) {
-        router.push("/dashboard");
+        setSuccess("تم تغير كلمة المرور بنجاح");
+        return;
       }
-      throw new Error(((await resp.json()) as Record<string, string>)["error"]);
+
+      setError((await resp.json<{ error: string }>()).error);
     } catch (error) {
+      console.log(error);
+    } finally {
       setTimeout(() => {
         setLoading(false);
       }, 1000);
-      console.log(error);
     }
   };
-  const router = useRouter();
+
   return (
     <div
       className={cn("flex flex-col gap-6", className)}
@@ -60,10 +65,8 @@ export function LoginForm({
     >
       <Card>
         <CardHeader>
-          <CardTitle>تسجيل الدخول إلى حسابك</CardTitle>
-          <CardDescription>
-            أدخل بريدك الإلكتروني و كلمة المرور أدناه لدخول إلى حسابك
-          </CardDescription>
+          <CardTitle>تغيير كلمة المرور</CardTitle>
+          <CardDescription>أدخل كلمة المرور الجديدة</CardDescription>
         </CardHeader>
         <CardContent>
           <form
@@ -74,26 +77,25 @@ export function LoginForm({
           >
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">البريد الإلكتروني</Label>
+                <Label htmlFor="newpassword">كلمة المرور</Label>
                 <Input
                   onChange={handleChange}
-                  value={userData.email}
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="m@example.com"
+                  value={userData.newpassword}
+                  id="newpassword"
+                  name="newpassword"
+                  type="password"
                   required
                 />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="password">كلمة المرور</Label>
+                  <Label htmlFor="confirmpassword">تأكيد كلمة المرور</Label>
                 </div>
                 <Input
                   onChange={handleChange}
-                  value={userData.password}
-                  name="password"
-                  id="password"
+                  value={userData.confirmpassword}
+                  name="confirmpassword"
+                  id="confirmpassword"
                   type="password"
                   required
                 />
@@ -105,8 +107,14 @@ export function LoginForm({
                   type="submit"
                   className="w-full"
                 >
-                  {isLoading ? <Spinner className="size-6" /> : "الدخول"}
+                  {isLoading ? <Spinner className="size-6" /> : "حفض"}
                 </Button>
+                {error && (
+                  <span className="text-red-500 text-center">{error}</span>
+                )}
+                {success && (
+                  <span className="text-green-500 text-center">{success}</span>
+                )}
               </div>
             </div>
           </form>

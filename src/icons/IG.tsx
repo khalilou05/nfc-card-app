@@ -5,6 +5,7 @@ export default function IG() {
       viewBox="0 0 48 48"
       width="50px"
       height="50px"
+      style={{ scale: 1.2 }}
     >
       <path
         fill="#304ffe"
@@ -94,10 +95,10 @@ export default function IG() {
           r="6"
           fill="none"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeMiterlimit="10"
+          strokeWidth="2"
         />
       </g>
     </svg>
