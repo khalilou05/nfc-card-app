@@ -29,11 +29,11 @@ import Image from "next/Image";
 import { useRouter } from "next/navigation";
 import React, { Fragment, useEffect, useState } from "react";
 export default function Page() {
-  const [data, setData] = useState({
+  const [data, setData] = useState<Record<string, string>>({
     fullName: "",
     phoneNumber: "",
     email: "",
-    socialMedia: {},
+    socialMedia: "{}",
   });
   const [userImage, setUserImage] = useState<File | null>(null);
   const [coverImage, setCoverImage] = useState<File | null>(null);
@@ -49,19 +49,19 @@ export default function Page() {
   const handleSocialMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData((prv) => ({
       ...prv,
-      socialMedia: { ...prv.socialMedia, [e.target.id]: e.target.value },
+      socialMedia: JSON.stringify({
+        ...JSON.parse(data.socialMedia),
+        [e.target.name]: e.target.value,
+      }),
     }));
   };
   const handleSubmit = async () => {
     try {
       setLoading(true);
       const formdata = new FormData();
-
-      const { socialMedia: _, ...rest } = data;
-      for (const [key, value] of Object.entries(rest)) {
+      for (const [key, value] of Object.entries(data)) {
         formdata.append(key, value);
       }
-      formdata.append("socialMedia", JSON.stringify(data.socialMedia));
       if (userImage && coverImage) {
         formdata.append("profileImg", userImage);
         formdata.append("coverImg", coverImage);
@@ -101,15 +101,18 @@ export default function Page() {
   };
 
   const appendSocialMedia = (key: string) => {
-    console.log("qsd");
-    if (key in data.socialMedia) {
-      const { [key]: _, ...rest } = data.socialMedia;
-      setData((prv) => ({ ...prv, socialMedia: rest }));
+    if (key in JSON.parse(data.socialMedia)) {
+      const newobj = { ...data };
+      delete newobj[key];
+      setData((prv) => ({ ...prv, socialMedia: JSON.stringify(newobj) }));
       return;
     }
     setData((prv) => ({
       ...prv,
-      socialMedia: { ...prv.socialMedia, [key]: "" },
+      socialMedia: JSON.stringify({
+        ...JSON.parse(prv.socialMedia),
+        [key]: "",
+      }),
     }));
   };
 
@@ -124,9 +127,6 @@ export default function Page() {
     };
   }, [coverPerviewImage]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
     <div className="flex w-full justify-center pt-10 pb-10">
       <div className="w-4/5 ">
@@ -148,7 +148,6 @@ export default function Page() {
                 onChange={handleChange}
                 required
                 autoComplete="username"
-                id="fullName"
                 name="fullName"
               />
               <Label htmlFor="fullName">رقم الهاتف</Label>
@@ -156,14 +155,12 @@ export default function Page() {
                 onChange={handleChange}
                 required
                 autoComplete="mobile tel"
-                id="phoneNumber"
                 name="phoneNumber"
               />
               <Label htmlFor="email">البريد الإلكتروني</Label>
               <Input
                 onChange={handleChange}
                 required
-                id="email"
                 name="email"
               />
               <Label>مواقع التواصل </Label>
@@ -197,7 +194,7 @@ export default function Page() {
 
                         <Checkbox
                           onCheckedChange={() => appendSocialMedia(key)}
-                          checked={key in data.socialMedia}
+                          checked={key in JSON.parse(data.socialMedia)}
                           id={socialMedia[key].label}
                         />
                       </Label>
@@ -212,7 +209,7 @@ export default function Page() {
                 </AlertDialogContent>
               </AlertDialog>
 
-              {Object.keys(data.socialMedia).map((key) => (
+              {Object.keys(JSON.parse(data.socialMedia)).map((key) => (
                 <Fragment key={key}>
                   <Label htmlFor={key}>{socialMedia[key].label}</Label>
                   <Input

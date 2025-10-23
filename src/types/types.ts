@@ -5,6 +5,6 @@ export interface Customer {
   email: string;
   coverImg: string;
   profileImg: string;
-  socialMedia: string | Record<string, string>;
+  socialMedia: string;
   createdAt?: string;
 }

@@ -18,7 +18,6 @@ import clsx from "clsx";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { useFetch } from "@/hooks/useFetch";
 import { Customer } from "@/types/types";
 import Image from "next/Image";
 import { useParams } from "next/navigation";
@@ -26,15 +25,7 @@ import router from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
 import { socialMedia } from "../../../../../socialMedia";
 export default function Page() {
-  const [customer, setCustomer] = useState<Customer>({
-    id: 0,
-    fullName: "",
-    phoneNumber: "",
-    email: "",
-    coverImg: "",
-    profileImg: "",
-    socialMedia: {},
-  });
+  const [customer, setCustomer] = useState<Customer>({} as Customer);
 
   const [userImage, setUserImage] = useState<File | null>(null);
   const [coverImage, setCoverImage] = useState<File | null>(null);
@@ -50,21 +41,20 @@ export default function Page() {
   const handleSocialMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomer((prv) => ({
       ...prv,
-      socialMedia: {
-        ...(prv.socialMedia as Record<string, string>),
-        [e.target.id]: e.target.value,
-      },
+      socialMedia: JSON.stringify({
+        ...JSON.parse(prv.socialMedia),
+        [e.target.name]: e.target.value,
+      }),
     }));
   };
   const handleSubmit = async () => {
     try {
       setSaveLoading(true);
       const formdata = new FormData();
-      const { socialMedia, ...rest } = customer;
-      for (const [key, value] of Object.entries(rest)) {
+
+      for (const [key, value] of Object.entries(customer)) {
         formdata.append(key, value);
       }
-      formdata.append("socialMedia", JSON.stringify(socialMedia));
 
       if (userImage && coverImage) {
         formdata.append("newprofileImg", userImage);
@@ -102,18 +92,18 @@ export default function Page() {
   };
 
   const appendSocialMedia = (key: string) => {
-    if (typeof customer.socialMedia != "object") return;
-    if (key in customer.socialMedia) {
-      const { [key]: _, ...rest } = customer.socialMedia;
-      setCustomer((prv) => ({ ...prv, socialMedia: rest }));
+    if (key in JSON.parse(customer.socialMedia)) {
+      const newobj = { ...JSON.parse(customer.socialMedia) };
+      delete newobj[key];
+      setCustomer((prv) => ({ ...prv, socialMedia: newobj }));
       return;
     }
     setCustomer((prv) => ({
       ...prv,
-      socialMedia: {
-        ...(prv.socialMedia as Record<string, string>),
+      socialMedia: JSON.stringify({
+        ...JSON.parse(customer.socialMedia),
         [key]: "",
-      },
+      }),
     }));
   };
 
@@ -222,10 +212,7 @@ export default function Page() {
 
                           <Checkbox
                             onCheckedChange={() => appendSocialMedia(key)}
-                            checked={
-                              key in
-                              (customer?.socialMedia as Record<string, string>)
-                            }
+                            checked={key in JSON.parse(customer.socialMedia)}
                             id={socialMedia[key].label}
                           />
                         </Label>
