@@ -28,6 +28,7 @@ export function LoginForm({
     password: "",
   });
   const [isLoading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData((prv) => ({ ...prv, [e.target.name]: e.target.value }));
@@ -41,11 +42,11 @@ export function LoginForm({
         {
           method: "POST",
           body: JSON.stringify(userData),
-          credentials: "include",
         }
       );
       if (resp.status === 200) {
         router.push("/dashboard");
+        return;
       }
       throw new Error(((await resp.json()) as Record<string, string>)["error"]);
     } catch (error) {
@@ -55,7 +56,6 @@ export function LoginForm({
       console.log(error);
     }
   };
-  const router = useRouter();
   return (
     <div
       className={cn("flex flex-col gap-6", className)}
