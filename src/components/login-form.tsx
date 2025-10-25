@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { cn, fetchApi } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
@@ -37,23 +37,21 @@ export function LoginForm({
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const resp = await fetch(
-        `https://nfc-card-backend.khalilbenmeziane.workers.dev/login`,
-        {
-          method: "POST",
-          body: JSON.stringify(userData),
-        }
-      );
+      const resp = await fetchApi("/login", {
+        method: "POST",
+        body: JSON.stringify(userData),
+      });
       if (resp.status === 200) {
         router.push("/dashboard");
         return;
       }
       throw new Error(((await resp.json()) as Record<string, string>)["error"]);
     } catch (error) {
+      console.log(error);
+    } finally {
       setTimeout(() => {
         setLoading(false);
       }, 1000);
-      console.log(error);
     }
   };
   return (

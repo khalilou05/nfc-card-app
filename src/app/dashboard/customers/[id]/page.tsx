@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { fetchApi } from "@/lib/utils";
 import type { Customer } from "@/types/types";
 import { QRCodeSVG } from "qrcode.react";
 import { Fragment, use, useEffect, useRef, useState } from "react";
@@ -98,10 +99,7 @@ export default function Page({ params }: { params: Promise<{ id: number }> }) {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const resp = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/customers/${id}`,
-          { credentials: "include" }
-        );
+        const resp = await fetchApi(`/api/customers/${id}`);
         const data = await resp.json<Customer>();
         setCustomer({
           ...data,

@@ -27,6 +27,7 @@ import {
 import Eye from "@/icons/Eye";
 import PEN from "@/icons/PEN";
 import Trash from "@/icons/Trash";
+import { fetchApi } from "@/lib/utils";
 import { MoreHorizontal, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -136,8 +137,8 @@ export function DataTableDemo() {
         }
         urlSearchParams.append("page", currentPage.toString());
 
-        const resp = await fetch(
-          `https://nfc-card-backend.khalilbenmeziane.workers.dev/api/customers?${urlSearchParams.toString()}`,
+        const resp = await fetchApi(
+          `/api/customers?${urlSearchParams.toString()}`,
           { credentials: "include" }
         );
         if (resp.ok) {
