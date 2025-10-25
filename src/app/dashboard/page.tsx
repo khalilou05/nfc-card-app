@@ -25,6 +25,7 @@ import clsx from "clsx";
 import { socialMedia } from "../../socialMedia";
 
 import IMG from "@/icons/IMG";
+import { fetchApi } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { Fragment, useEffect, useState } from "react";
@@ -67,14 +68,10 @@ export default function Page() {
         formdata.append("coverImg", coverImage);
       }
 
-      const resp = await fetch(
-        `https://nfc-card-backend.khalilbenmeziane.workers.dev/api/customers`,
-        {
-          method: "POST",
-          body: formdata,
-          credentials: "include",
-        }
-      );
+      const resp = await fetchApi(`/api/customers`, {
+        method: "POST",
+        body: formdata,
+      });
       const { userId } = await resp.json<{ userId: number }>();
 
       if (resp.status === 201) {

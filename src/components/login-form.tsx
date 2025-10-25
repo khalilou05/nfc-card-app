@@ -28,6 +28,7 @@ export function LoginForm({
     password: "",
   });
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +49,7 @@ export function LoginForm({
       throw new Error(((await resp.json()) as Record<string, string>)["error"]);
     } catch (error) {
       console.log(error);
+      setError((error as Error).message);
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -108,6 +110,9 @@ export function LoginForm({
                 >
                   {isLoading ? <Spinner className="size-6" /> : "الدخول"}
                 </Button>
+                {error && (
+                  <span className="text-center text-red-500">{error}</span>
+                )}
               </div>
             </div>
           </form>

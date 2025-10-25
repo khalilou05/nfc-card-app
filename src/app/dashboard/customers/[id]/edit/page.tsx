@@ -18,6 +18,7 @@ import clsx from "clsx";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
+import { fetchApi } from "@/lib/utils";
 import { Customer } from "@/types/types";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -41,10 +42,10 @@ export default function Page() {
   const handleSocialMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomer((prv) => ({
       ...prv,
-      socialMedia: JSON.stringify({
-        ...JSON.parse(prv.socialMedia),
+      socialMedia: {
+        ...(prv.socialMedia as Record<string, string>),
         [e.target.name]: e.target.value,
-      }),
+      },
     }));
   };
   const handleSubmit = async () => {
@@ -92,28 +93,25 @@ export default function Page() {
   };
 
   const appendSocialMedia = (key: string) => {
-    if (key in JSON.parse(customer.socialMedia)) {
-      const newobj = { ...JSON.parse(customer.socialMedia) };
+    if (key in (customer.socialMedia as Record<string, string>)) {
+      const newobj = { ...(customer.socialMedia as Record<string, string>) };
       delete newobj[key];
       setCustomer((prv) => ({ ...prv, socialMedia: newobj }));
       return;
     }
     setCustomer((prv) => ({
       ...prv,
-      socialMedia: JSON.stringify({
-        ...JSON.parse(customer.socialMedia),
+      socialMedia: {
+        ...(prv.socialMedia as Record<string, string>),
         [key]: "",
-      }),
+      },
     }));
   };
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const resp = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/customers/${id}`,
-          { credentials: "include" }
-        );
+        const resp = await fetchApi(`/api/customers/${id}`);
         const data = await resp.json<Customer>();
 
         setCustomer({
@@ -212,7 +210,10 @@ export default function Page() {
 
                           <Checkbox
                             onCheckedChange={() => appendSocialMedia(key)}
-                            checked={key in JSON.parse(customer.socialMedia)}
+                            checked={
+                              key in
+                              (customer.socialMedia as Record<string, string>)
+                            }
                             id={socialMedia[key].label}
                           />
                         </Label>
