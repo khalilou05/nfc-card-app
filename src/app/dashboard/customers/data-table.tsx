@@ -69,14 +69,10 @@ export function DataTableDemo() {
   const deleteCustomer = async (cus: Customer) => {
     const deleteConfirm = window.confirm("هل تريد حذف الزبون");
     if (!deleteConfirm) return;
-    const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/customers`,
-      {
-        method: "DELETE",
-        body: JSON.stringify([cus.id]),
-        credentials: "include",
-      }
-    );
+    const resp = await fetchApi(`/api/customers`, {
+      method: "DELETE",
+      body: JSON.stringify([cus.id]),
+    });
     if (resp.ok) {
       setRefetch(!refetch);
     }
@@ -86,14 +82,10 @@ export function DataTableDemo() {
       "هل تريد حذف  الزبائن الذي تم تحديدهم"
     );
     if (!deleteConfirm) return;
-    const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/customers`,
-      {
-        method: "DELETE",
-        body: JSON.stringify(selectedCustomer.map((i) => i.id)),
-        credentials: "include",
-      }
-    );
+    const resp = await fetchApi(`/api/customers`, {
+      method: "DELETE",
+      body: JSON.stringify(selectedCustomer.map((i) => i.id)),
+    });
     if (resp.ok) {
       setRefetch(!refetch);
       setSelectedCustomer([]);

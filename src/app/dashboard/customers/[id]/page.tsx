@@ -103,7 +103,7 @@ export default function Page({ params }: { params: Promise<{ id: number }> }) {
         const data = await resp.json<Customer>();
         setCustomer({
           ...data,
-          socialMedia: { ...JSON.parse(data.socialMedia) },
+          socialMedia: { ...JSON.parse(data.socialMedia as string) },
         });
       } catch (e) {
         console.log(e);

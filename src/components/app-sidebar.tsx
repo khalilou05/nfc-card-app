@@ -12,6 +12,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { fetchApi } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -34,9 +35,7 @@ export function AppSidebar() {
   const path = usePathname();
   const router = useRouter();
   const logOut = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/logout`, {
-      credentials: "include",
-    });
+    await fetchApi(`/logout`);
     router.push("/login");
   };
   return (

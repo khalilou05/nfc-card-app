@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { cn, fetchApi } from "@/lib/utils";
 
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
@@ -43,10 +43,10 @@ export function PasswordChangeForm({
     }
     try {
       setLoading(true);
-      const resp = await fetch(
-        "https://nfc-card-backend.khalilbenmeziane.workers.dev/resetpassword",
-        { method: "POST", credentials: "include" }
-      );
+      const resp = await fetchApi("/api/resetpassword", {
+        method: "POST",
+        body: JSON.stringify(userData),
+      });
       if (resp.status === 200) {
         setSuccess("تم تغير كلمة المرور بنجاح");
         return;
@@ -84,7 +84,7 @@ export function PasswordChangeForm({
                 <Label htmlFor="email">البريد الإلكتروني</Label>
                 <Input
                   onChange={handleChange}
-                  value={userData.newpassword}
+                  value={userData.email}
                   id="email"
                   name="email"
                   required

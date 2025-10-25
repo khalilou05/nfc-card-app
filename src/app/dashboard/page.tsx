@@ -24,16 +24,19 @@ import { User } from "lucide-react";
 import clsx from "clsx";
 import { socialMedia } from "../../socialMedia";
 
+import { Spinner } from "@/components/ui/spinner";
 import IMG from "@/icons/IMG";
+import { fetchApi } from "@/lib/utils";
+import type { Customer } from "@/types/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { Fragment, useEffect, useState } from "react";
 export default function Page() {
-  const [data, setData] = useState<Record<string, string>>({
+  const [data, setData] = useState<Customer>({
     fullName: "",
     phoneNumber: "",
     email: "",
-    socialMedia: "{}",
+    socialMedia: {},
   });
   const [userImage, setUserImage] = useState<File | null>(null);
   const [coverImage, setCoverImage] = useState<File | null>(null);
@@ -49,32 +52,30 @@ export default function Page() {
   const handleSocialMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData((prv) => ({
       ...prv,
-      socialMedia: JSON.stringify({
-        ...JSON.parse(data.socialMedia),
+      socialMedia: {
+        ...(prv.socialMedia as Record<string, string>),
         [e.target.name]: e.target.value,
-      }),
+      },
     }));
   };
   const handleSubmit = async () => {
     try {
       setLoading(true);
       const formdata = new FormData();
-      for (const [key, value] of Object.entries(data)) {
-        formdata.append(key, value);
+      const { socialMedia, ...rest } = data;
+      for (const [key, value] of Object.entries(rest)) {
+        formdata.append(key, value as string);
       }
+      formdata.append("socialMedia", JSON.stringify(socialMedia));
       if (userImage && coverImage) {
         formdata.append("profileImg", userImage);
         formdata.append("coverImg", coverImage);
       }
 
-      const resp = await fetch(
-        `https://nfc-card-backend.khalilbenmeziane.workers.dev/api/customers`,
-        {
-          method: "POST",
-          body: formdata,
-          credentials: "include",
-        }
-      );
+      const resp = await fetchApi(`/api/customers`, {
+        method: "POST",
+        body: formdata,
+      });
       const { userId } = await resp.json<{ userId: number }>();
 
       if (resp.status === 201) {
@@ -101,18 +102,18 @@ export default function Page() {
   };
 
   const appendSocialMedia = (key: string) => {
-    if (key in JSON.parse(data.socialMedia)) {
-      const newobj = { ...data };
+    if (key in (data.socialMedia as Record<string, string>)) {
+      const newobj = { ...(data.socialMedia as Record<string, string>) };
       delete newobj[key];
-      setData((prv) => ({ ...prv, socialMedia: JSON.stringify(newobj) }));
+      setData((prv) => ({ ...prv, socialMedia: newobj }));
       return;
     }
     setData((prv) => ({
       ...prv,
-      socialMedia: JSON.stringify({
-        ...JSON.parse(prv.socialMedia),
+      socialMedia: {
+        ...(prv.socialMedia as Record<string, string>),
         [key]: "",
-      }),
+      },
     }));
   };
 
@@ -194,7 +195,9 @@ export default function Page() {
 
                         <Checkbox
                           onCheckedChange={() => appendSocialMedia(key)}
-                          checked={key in JSON.parse(data.socialMedia)}
+                          checked={
+                            key in (data.socialMedia as Record<string, string>)
+                          }
                           id={socialMedia[key].label}
                         />
                       </Label>
@@ -209,10 +212,11 @@ export default function Page() {
                 </AlertDialogContent>
               </AlertDialog>
 
-              {Object.keys(JSON.parse(data.socialMedia)).map((key) => (
+              {Object.keys(data.socialMedia).map((key) => (
                 <Fragment key={key}>
                   <Label htmlFor={key}>{socialMedia[key].label}</Label>
                   <Input
+                    name={key}
                     required
                     onChange={handleSocialMedia}
                     id={key}
@@ -292,7 +296,7 @@ export default function Page() {
                 disabled={isLoading}
                 style={{ cursor: "pointer" }}
               >
-                إضافة
+                {isLoading ? <Spinner className="size-6" /> : "إضافة"}
               </Button>
             </form>
           </CardContent>
