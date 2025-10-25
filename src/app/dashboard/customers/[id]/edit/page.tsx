@@ -39,12 +39,15 @@ export default function Page() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomer((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
-  const handleSocialMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSocialMedia = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string
+  ) => {
     setCustomer((prv) => ({
       ...prv,
       socialMedia: {
         ...(prv.socialMedia as Record<string, string>),
-        [e.target.name]: e.target.value,
+        [key]: e.target.value,
       },
     }));
   };
@@ -232,7 +235,7 @@ export default function Page() {
                   <Fragment key={key}>
                     <Label>{socialMedia[key].label}</Label>
                     <Input
-                      onChange={handleSocialMedia}
+                      onChange={(e) => handleSocialMedia(e, key)}
                       value={value}
                     />
                   </Fragment>
