@@ -50,15 +50,17 @@ export default async function Page({
           <Link href={`tel:${customer.phoneNumber}`}>
             <Phone />
           </Link>
-          {Object.entries(customer.socialMedia).map(([key, value]) => (
-            <Link
-              href={value}
-              key={key}
-              target="_blank"
-            >
-              {socialMedia[key].icon}
-            </Link>
-          ))}
+          {Object.entries(JSON.parse(customer.socialMedia as string)).map(
+            ([key, value]) => (
+              <Link
+                href={value as string}
+                key={key}
+                target="_blank"
+              >
+                {socialMedia[key].icon}
+              </Link>
+            )
+          )}
         </div>
       </div>
       <div className="mt-auto flex justify-center">
