@@ -21,8 +21,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { fetchApi } from "@/lib/utils";
 import { Customer } from "@/types/types";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import router from "next/router";
+import { useParams, useRouter } from "next/navigation";
+
 import React, { Fragment, useEffect, useState } from "react";
 import { socialMedia } from "../../../../../socialMedia";
 export default function Page() {
@@ -35,7 +35,7 @@ export default function Page() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(true);
   const [saveloading, setSaveLoading] = useState(false);
-
+  const router = useRouter();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomer((prv) => ({ ...prv, [e.target.name]: e.target.value }));
   };
