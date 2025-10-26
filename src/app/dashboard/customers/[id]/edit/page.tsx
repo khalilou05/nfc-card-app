@@ -179,6 +179,14 @@ export default function Page() {
                   autoComplete="mobile tel"
                   name="phoneNumber"
                 />
+                <Label htmlFor="phoneNumber">البريد الإلكتروني</Label>
+                <Input
+                  onChange={handleChange}
+                  value={customer?.email ?? ""}
+                  required
+                  autoComplete="email"
+                  name="email"
+                />
                 <Label>مواقع التواصل </Label>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
