@@ -1,6 +1,7 @@
 import SaveContact from "@/components/SaveContact";
 
 import Phone from "@/icons/Phone";
+import { fetchApi } from "@/lib/utils";
 import type { Customer } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,9 +14,7 @@ export default async function Page({
   params: Promise<{ id: number }>;
 }) {
   const { id } = await params;
-  const resp = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/customers/${id}`
-  );
+  const resp = await fetchApi(`/customers/${id}`);
   if (!resp.ok) return notFound();
   const customer = await resp.json<Customer>();
 
