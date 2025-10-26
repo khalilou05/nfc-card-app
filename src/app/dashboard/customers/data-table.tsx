@@ -71,7 +71,7 @@ export function DataTableDemo() {
     if (!deleteConfirm) return;
     const resp = await fetchApi(`/api/customers`, {
       method: "DELETE",
-      body: JSON.stringify([cus.id]),
+      body: JSON.stringify([cus]),
     });
     if (resp.ok) {
       setRefetch(!refetch);
@@ -84,7 +84,7 @@ export function DataTableDemo() {
     if (!deleteConfirm) return;
     const resp = await fetchApi(`/api/customers`, {
       method: "DELETE",
-      body: JSON.stringify(selectedCustomer.map((i) => i.id)),
+      body: JSON.stringify(selectedCustomer),
     });
     if (resp.ok) {
       setRefetch(!refetch);
