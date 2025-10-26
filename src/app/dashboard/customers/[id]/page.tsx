@@ -50,7 +50,6 @@ export default function Page({ params }: { params: Promise<{ id: number }> }) {
     try {
       // @ts-expect-error qsdqsd
       const nfc = new NDEFReader();
-      nfc.scan();
       await nfc.write({
         records: [
           {

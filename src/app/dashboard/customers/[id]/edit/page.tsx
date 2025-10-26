@@ -55,24 +55,21 @@ export default function Page() {
     try {
       setSaveLoading(true);
       const formdata = new FormData();
-
-      for (const [key, value] of Object.entries(customer)) {
-        formdata.append(key, value);
+      const { socialMedia, ...rest } = customer;
+      for (const [key, value] of Object.entries(rest)) {
+        formdata.append(key, value as string);
       }
+      formdata.append("socialMedia", JSON.stringify(socialMedia));
 
       if (userImage && coverImage) {
         formdata.append("newprofileImg", userImage);
         formdata.append("newcoverImg", coverImage);
       }
 
-      const resp = await fetch(
-        `https://nfc-card-backend.khalilbenmeziane.workers.dev/api/customers`,
-        {
-          method: "PUT",
-          body: formdata,
-          credentials: "include",
-        }
-      );
+      const resp = await fetchApi(`/api/customers`, {
+        method: "PUT",
+        body: formdata,
+      });
 
       if (resp.status === 201) {
         router.push(`/dashboard/customers`);
@@ -119,7 +116,7 @@ export default function Page() {
 
         setCustomer({
           ...data,
-          socialMedia: { ...JSON.parse(data.socialMedia as string) },
+          socialMedia: JSON.parse(data.socialMedia as string),
         });
       } catch (e) {
         console.log(e);
