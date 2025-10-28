@@ -22,7 +22,7 @@ export default async function Page({
     <div className="flex flex-col h-dvh w-dvw gap-4">
       <div className="h-[30%] relative">
         <Image
-          src={`https://pub-9647a39e181348cf8196ba47f8e8bfb0.r2.dev/${customer.coverImg}`}
+          src={`https://media.twenty-print.com/${customer.coverImg}`}
           fill
           alt="cover"
         />
@@ -31,7 +31,7 @@ export default async function Page({
         <div className="relative h-20 w-20 border-1 border-gray rounded-full overflow-hidden">
           <Image
             fill
-            src={`https://pub-9647a39e181348cf8196ba47f8e8bfb0.r2.dev/${customer.profileImg}`}
+            src={`https://media.twenty-print.com/${customer.profileImg}`}
             style={{ objectFit: "cover" }}
             alt=""
           />

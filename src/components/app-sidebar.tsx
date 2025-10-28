@@ -36,7 +36,7 @@ export function AppSidebar() {
   const router = useRouter();
   const logOut = async () => {
     await fetchApi(`/logout`);
-    router.push("/login");
+    router.push("/");
   };
   return (
     <Sidebar
