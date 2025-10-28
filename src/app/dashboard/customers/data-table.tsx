@@ -124,9 +124,7 @@ export function DataTableDemo() {
     const getCustomers = async () => {
       try {
         const urlSearchParams = new URLSearchParams();
-        if (query) {
-          urlSearchParams.append("q", query);
-        }
+
         urlSearchParams.append("page", currentPage.toString());
 
         const resp = await fetchApi(
@@ -157,7 +155,43 @@ export function DataTableDemo() {
     }, 200);
 
     return () => clearTimeout(timeoutId);
-  }, [query, currentPage, refetch]);
+  }, [currentPage, refetch]);
+  React.useEffect(() => {
+    const getCustomers = async () => {
+      try {
+        const urlSearchParams = new URLSearchParams();
+        if (query) {
+          urlSearchParams.append("q", query);
+        }
+        const resp = await fetchApi(
+          `/api/customers?${urlSearchParams.toString()}`,
+          { credentials: "include" }
+        );
+        if (resp.ok) {
+          const { data, totalCustomer, totalPages } = await resp.json<{
+            data: Customer[];
+            totalCustomer: number;
+            totalPages: number;
+          }>();
+          setData(data);
+          setTotalCustomer(totalCustomer);
+          setTotalPages(totalPages === 0 ? 1 : totalPages);
+        } else {
+          setData([]);
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    setLoading(true);
+    const timeoutId = setTimeout(() => {
+      getCustomers();
+    }, 200);
+
+    return () => clearTimeout(timeoutId);
+  }, [query]);
 
   return (
     <div className="w-full  h-6/7 ">
