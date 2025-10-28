@@ -13,7 +13,7 @@ export async function fetchApi(
     `${
       process.env.NODE_ENV === "development"
         ? "http://localhost:8787"
-        : "https://nfc-card-backend.khalilbenmeziane.workers.dev"
+        : "https://api.twenty-print.com"
     }${endpoint}`,
     {
       ...config,

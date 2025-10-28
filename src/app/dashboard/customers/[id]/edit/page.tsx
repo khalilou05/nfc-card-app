@@ -278,7 +278,7 @@ export default function Page() {
                     <Image
                       height={200}
                       width={200}
-                      src={`https://pub-9647a39e181348cf8196ba47f8e8bfb0.r2.dev/${customer.coverImg}`}
+                      src={`https://media.twenty-print.com/${customer.coverImg}`}
                       style={{ objectFit: "cover" }}
                       alt=""
                     />
@@ -316,7 +316,7 @@ export default function Page() {
                     <Image
                       height={200}
                       width={200}
-                      src={`https://pub-9647a39e181348cf8196ba47f8e8bfb0.r2.dev/${customer.profileImg}`}
+                      src={`https://media.twenty-print.com/${customer.profileImg}`}
                       style={{ objectFit: "cover" }}
                       alt=""
                     />
