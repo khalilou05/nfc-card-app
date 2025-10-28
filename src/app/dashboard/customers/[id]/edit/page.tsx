@@ -61,9 +61,9 @@ export default function Page() {
       }
       formdata.append("socialMedia", JSON.stringify(socialMedia));
 
-      if (userImage && coverImage) {
-        formdata.append("newprofileImg", userImage);
-        formdata.append("newcoverImg", coverImage);
+      if (userImage || coverImage) {
+        formdata.append("newprofileImg", userImage ?? "");
+        formdata.append("newcoverImg", coverImage ?? "");
       }
 
       const resp = await fetchApi(`/api/customers`, {
