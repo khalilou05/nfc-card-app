@@ -5,9 +5,11 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("token");
 
   if (!token) return NextResponse.redirect(new URL("/", request.url));
-  return NextResponse.next();
+  if (request.nextUrl.pathname === "/") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
 }
 
 export const config = {
-  matcher: "/dashboard/:path*",
+  matcher: ["/dashboard/:path*", "/"],
 };
