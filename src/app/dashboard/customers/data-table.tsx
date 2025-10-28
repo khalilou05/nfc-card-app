@@ -150,11 +150,7 @@ export function DataTableDemo() {
       }
     };
     setLoading(true);
-    const timeoutId = setTimeout(() => {
-      getCustomers();
-    }, 200);
-
-    return () => clearTimeout(timeoutId);
+    getCustomers();
   }, [currentPage, refetch]);
   React.useEffect(() => {
     const getCustomers = async () => {
