@@ -19,16 +19,14 @@ export default async function Page({
   const customer = await resp.json<Customer>();
 
   return (
-    <div className="flex flex-col h-dvh w-dvw gap-4">
-      <div className="h-[30%] relative">
+    <div className="flex flex-col h-dvh w-dvw">
+      <div className="h-[40%] relative shrink-0">
         <Image
           src={`https://media.twenty-print.com/${customer.coverImg}`}
           fill
           alt="cover"
         />
-      </div>
-      <div className="flex flex-col justify-center w-full items-center gap-3">
-        <div className="relative h-20 w-20 border-1 border-gray rounded-full overflow-hidden">
+        <div className="absolute h-25 w-25 left-[50%] top-[100%] translate-[-50%] border-3 border-[#004f9f] rounded-full overflow-hidden">
           <Image
             fill
             src={`https://media.twenty-print.com/${customer.profileImg}`}
@@ -36,46 +34,50 @@ export default async function Page({
             alt=""
           />
         </div>
-        <h1
-          className="text-xl font-semibold
+      </div>
+      <div className="h-full flex flex-col gap-4 bg-linear-to-b from-[#004f9f] to-transparent pt-16">
+        <div className="flex flex-col justify-center w-full items-center gap-3">
+          <h1
+            className="text-xl font-semibold
 "
-        >
-          {customer.fullName}
-        </h1>
-        <SaveContact customer={customer} />
-      </div>
-
-      <div className="flex items-center flex-col">
-        <div className="w-[80%] grid grid-cols-4 gap-2 [&>*:nth-child(4n)]:justify-self-end [&>*:nth-child(4n+2)]:justify-self-center [&>*:nth-child(4n+3)]:justify-self-center">
-          <Link href={`tel:${customer.phoneNumber}`}>
-            <Phone />
-          </Link>
-          {Object.entries(JSON.parse(customer.socialMedia as string)).map(
-            ([key, value]) => (
-              <Link
-                href={value as string}
-                key={key}
-                target="_blank"
-              >
-                {socialMedia[key].icon}
-              </Link>
-            )
-          )}
+          >
+            {customer.fullName}
+          </h1>
+          <SaveContact customer={customer} />
         </div>
-      </div>
-      <div className="mt-auto flex justify-center">
-        <Link
-          target="_blank"
-          href={"https://www.facebook.com/share/1BLRQguH2s/"}
-        >
-          <Image
-            height={60}
-            width={60}
-            alt=""
-            src={"/logo.svg"}
-          />
-        </Link>
-        POWRED BY{" "}
+
+        <div className="flex items-center flex-col">
+          <div className="w-[80%] flex flex-wrap justify-between gap-2">
+            <Link href={`tel:${customer.phoneNumber}`}>
+              <Phone />
+            </Link>
+            {Object.entries(JSON.parse(customer.socialMedia as string)).map(
+              ([key, value]) => (
+                <Link
+                  href={value as string}
+                  key={key}
+                  target="_blank"
+                >
+                  {socialMedia[key].icon}
+                </Link>
+              )
+            )}
+          </div>
+        </div>
+        <div className="mt-auto flex justify-center">
+          <Link
+            target="_blank"
+            href={"https://www.facebook.com/share/1BLRQguH2s/"}
+          >
+            <Image
+              height={60}
+              width={60}
+              alt=""
+              src={"/logo.svg"}
+            />
+          </Link>
+          POWRED BY{" "}
+        </div>
       </div>
     </div>
   );

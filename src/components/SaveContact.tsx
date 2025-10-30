@@ -23,7 +23,7 @@ export default function SaveContact({ customer }: { customer: Customer }) {
   };
   return (
     <Button
-      className="w-[80%] h-12"
+      className="w-[80%] h-12 rounded-tl-2xl rounded-br-2xl rounded-bl-none rounded-tr-none"
       onClick={saveContact}
     >
       Enregistrer Le Contact
